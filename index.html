@@ -81,7 +81,7 @@
     </style>
   </head>
   <body class="antialiased selection:bg-pink-200 selection:text-rose-600">
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop preload="auto">
       <source src="lagu-valentine.mp3" type="audio/mpeg" />
     </audio>
 
@@ -257,19 +257,26 @@
     <script>
       // --- LOGIC MUSIK ---
       const music = document.getElementById("bg-music");
-
-      music.currentTime = 28;
-
       const iconMute = document.getElementById("icon-mute");
       const iconPlay = document.getElementById("icon-play");
       let isPlaying = false;
+      let isFirstPlay = true; // Penanda apakah ini pertama kali klik
 
       function toggleMusic() {
         if (isPlaying) {
+          // Jika sedang main, pause
           music.pause();
           iconMute.classList.remove("hidden");
           iconPlay.classList.add("hidden");
         } else {
+          // Jika mau play
+
+          // KHUSUS SAFARI: Set waktu hanya saat KLIK PERTAMA kali
+          if (isFirstPlay) {
+            music.currentTime = 27; // Lompat ke detik 27
+            isFirstPlay = false; // Tandai sudah pernah di-set
+          }
+
           music.play();
           iconMute.classList.add("hidden");
           iconPlay.classList.remove("hidden");
